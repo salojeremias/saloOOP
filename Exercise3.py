@@ -1,3 +1,4 @@
+#2
 class  NumberStats:
     def __init__(self):
         #instead of self.numbers = 0, it should = []
@@ -69,8 +70,8 @@ if __name__ == "__main__":
     print("Sum of even numbers:", stats.get_sum_even())
     print("Sum of odd numbers:", stats.get_sum_odd())
 
-    #3
-    class LunchCard:
+#3
+class LunchCard:
     #Part 1:
     def __init__(self, balance: float):
         self.balance = balance
@@ -204,6 +205,7 @@ class PaymentTerminal:
         card.deposit(amount)
         self.balance -= amount
 
+
 if __name__ == "__main__":
     #Part1
     card = LunchCard(10)
@@ -272,7 +274,159 @@ if __name__ == "__main__":
 
 
 #6
+#Part 1:
 class Present:
     def __init__(self, name: str, weight: int):
         self.name = name
         self.weight = weight
+
+    def __str__(self):
+        return f'{self.name}{self.weight}g'
+    
+#Part 2:
+class box:
+    def __init__(self):
+        self.presents = []
+
+    def add_present(self, present: Present):
+        self.presents.append(present)
+
+    def total_weight(self):
+        total = sum(present.weight for present in self.presents)
+        return total
+    
+#code test
+book = Present("Ta-Nehisi Coates: The Water Dancer", 200)
+box = box()
+box.add_present(book)
+print(box.total_weight())
+
+cd = Present("Pink Floyd: Dark Side of the Moon", 50)
+box.add_present(cd)
+print(box.total_weight())
+
+
+#7
+class Person:
+    def __init__(self, name: str, height: int):
+        self.name = name
+        self.height = height
+
+#Part 1:
+class Room:
+    def __init__(self):
+        self.persons = []
+
+    def add(self, person: Person):
+        self.persons.append(person)
+
+    def is_empty(self):
+        return len(self.persons) == 0
+    
+    def print_contents(self):
+        total_height = sum(person.height for person in self.persons)
+        print(f'There are {len(self.persons)} persons iin the room, and their total height is {total_height} cm.')
+        for person in self.persons:
+            print(f'{person.name} ({person.height} cm)')
+
+#Part 2:
+    def shortest(self):
+        if not self.persons:
+            return None
+        shortest_person = min(self.persons, key = lambda x: x.height)
+        return shortest_person 
+
+# Part: 3
+    def remove_shortest(self):
+        shortest_person = self.shortest()
+        if shortest_person:
+            self.persons.remove(shortest_person)
+            return shortest_person
+        else:
+            return None
+
+#code test     
+room = Room()
+print("Is the room empty?", room.is_empty())
+room.add(Person("Lea", 183))
+room.add(Person("Kenya", 172))
+room.print_contents()
+
+
+#8
+class Recording:
+    def __init__(self, length: int):
+        self.length = length
+
+    def get_length(self):
+        return self.length
+
+    def set_length(self, length: int):
+        self.length = length
+
+#code test
+the_wall = Recording(43)
+print(the_wall.get_length())
+the_wall.set_length(44)
+print(the_wall.get_length())
+
+
+#9
+class WeatherStation:
+    def __init__(self, name: str):
+        self.name = name
+        self.observations = []
+
+    def add_observations(self, observation: str):
+        self.observations.append(observation)
+
+    def latest_observation(self):
+        if self.observations:
+            return self.observations[-1]
+        else:
+            return ""
+        
+    def number_of_observations(self):
+        return len(self.observations)
+    
+    def __str__(self):
+        return f'{self.name}, {self.number_of_observations()} observations'
+
+#code test
+station = WeatherStation("Houston")
+station.add_observations("Rain 10mm")
+station.add_observations("Sunny")
+print(station.latest_observation())
+station.add_observations("Thunderstorm")
+print(station.latest_observation())
+print(station.number_of_observations())
+print(station)
+
+
+#10
+class BankAccount:
+    def __init__(self, name: str, account_number: str, balance: float):
+        self.name = name
+        self.account_number = account_number
+        self.balance = balance
+
+    def deposit(self, amount: float):
+        self.balance += amount
+        self.service_charge()
+
+    def withdraw(self, amount: float):
+        self.balance -= amount
+        self.service_charge()
+
+    def get_balance(self):
+        return self.balance
+
+    def service_charge(self):
+        self.balance -= self.balance * 0.01
+
+#code test
+account = BankAccount("Randy Riches", "12345-6789", 1000)
+account.withdraw(100)
+print(account.get_balance())
+account.deposit(100)
+print(account.get_balance())
